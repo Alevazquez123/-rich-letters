@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Historial de Letras - Rich Letters</title>
+    <style>
+        body {
+            background: #1e3c72;
+            color: white;
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+        }
+        .entrada {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 20px;
+            white-space: pre-wrap;
+        }
+        .fecha {
+            font-size: 0.8em;
+            color: #ccc;
+        }
+        .boton-volver {
+            background-color: #00bcd4;
+            border: none;
+            padding: 10px 20px;
+            color: white;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+        .boton-volver:hover {
+            background-color: #008ba3;
+        }
+    </style>
+</head>
+<body>
+    <h1>🕒 Historial de Letras Generadas</h1>
+    {% for entrada in entradas %}
+        <div class="entrada">
+            <div class="fecha">{{ entrada.fecha.strftime('%d/%m/%Y %H:%M') }}</div>
+            <strong>Frase inicial:</strong> {{ entrada.texto_inicial }}<br><br>
+            <strong>Letra generada:</strong><br>{{ entrada.letra_generada }}
+        </div>
+    {% else %}
+        <p>No hay letras generadas aún.</p>
+    {% endfor %}
+    <a href="/" class="boton-volver">⬅ Volver</a>
+</body>
+</html>

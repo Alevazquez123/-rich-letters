@@ -1,0 +1,88 @@
+/* Aplica estilos generales al cuerpo de la página */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Fuente moderna y legible */
+    background-color: #f9f9f9; /* Color de fondo claro */
+    color: #333; /* Color de texto oscuro */
+    max-width: 600px; /* Ancho máximo de contenido */
+    margin: 2rem auto; /* Centra el contenido horizontalmente con espacio superior/inferior */
+    padding: 1rem; /* Espaciado interno */
+    text-align: center; /* Centra el texto */
+  }
+  
+  /* Estilos para el título principal */
+  h1 {
+    font-size: 2rem; /* Tamaño del texto */
+    margin-bottom: 1.5rem; /* Espaciado inferior */
+    color: #efb810; /* Color de texto */
+  }
+  
+  /* Subtítulos */
+  h2 {
+    color: #efb810; /* Gris medio */
+    margin-top: 2rem; /* Espaciado superior */
+    font-size: 1.2rem; /* Tamaño medio */
+  }
+  
+  /* Estilos para inputs de texto */
+  input[type="text"],
+  input[type="file"] {
+    width: 70%; /* Ocupa el 70% del ancho */
+    padding: 0.5rem;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    margin: 0.5rem auto;
+    display: block;
+  }
+  
+  /* Estilos para el botón */
+  button {
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    margin: 0.5rem;
+    background-color: #000000;
+    color: #efb810;
+    border: 1px solid #efb810;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  /* Hover en botón */
+  button:hover {
+    background-color: #ffffff;
+    color: #000000;
+  }
+  
+  /* Estilo para el área de texto */
+  textarea {
+    width: 80%;
+    max-width: 500px;
+    margin: 1rem auto;
+    display: block;
+    padding: 0.5rem;
+    font-size: 1rem;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    resize: vertical; /* Permitir redimensionar verticalmente */
+  }
+  
+  /* Estilo para el contenedor del resultado generado */
+  .resultado {
+    white-space: pre-wrap;
+    background-color: #ffffff;
+    padding: 1rem;
+    border-radius: 8px;
+    border: 1px solid #969292;
+    margin-top: 1.5rem;
+    text-align: left;
+  }
+  
+  /* Estilos para el reproductor de audio */
+  audio {
+    display: block;
+    margin: 1rem auto;
+    width: 90%;
+    max-width: 500px;
+  }
+  

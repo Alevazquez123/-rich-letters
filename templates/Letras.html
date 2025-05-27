@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Rich Letters</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to bottom right, #1e3c72, #2a5298);
+            color: white;
+            padding: 20px;
+            margin: 0;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        textarea {
+            width: 100%;
+            height: 120px;
+            padding: 10px;
+            border-radius: 8px;
+            border: none;
+            resize: none;
+            font-size: 16px;
+            margin-bottom: 15px;
+        }
+
+        button {
+            background-color: #00bcd4;
+            border: none;
+            padding: 10px 20px;
+            color: white;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            margin: 5px;
+        }
+
+        button:hover {
+            background-color: #008ba3;
+        }
+
+        .output-section {
+            background-color: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 20px;
+            white-space: pre-wrap;
+        }
+
+        label {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>🎶 Rich Letters</h1>
+
+    <form method="POST">
+        <label for="texto_inicial">Escribe una frase o idea para comenzar tu canción:</label>
+        <textarea id="texto_inicial" name="texto_inicial" placeholder="Ej: Quiero una canción triste sobre una ruptura..." required>{{ request.form.texto_inicial or '' }}</textarea><br>
+
+        <button type="submit">Generar Letra</button>
+        <button type="button" onclick="descargarLetra()">Descargar Letra</button>
+        <button type="button" onclick="limpiarTodo()">Limpiar</button>
+        <button type="button" onclick="window.location.href='/historial'">Ver Historial</button>
+
+    </form>
+
+    {% if letra_generada %}
+    <div class="output-section">
+        <h2>Letra Generada:</h2>
+        <pre id="salida-letra">{{ letra_generada }}</pre>
+    </div>
+    {% else %}
+    <div class="output-section" id="salida-letra"></div>
+    {% endif %}
+
+    <script>
+        function descargarLetra() {
+            const letra = document.getElementById("salida-letra").textContent;
+            if (!letra.trim()) {
+                alert("No hay letra generada para descargar.");
+                return;
+            }
+
+            const blob = new Blob([letra], { type: "text/plain;charset=utf-8" });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement("a");
+            link.href = url;
+            link.download = "letra_generada.txt";
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        function limpiarTodo() {
+            document.getElementById("texto_inicial").value = "";
+            document.getElementById("salida-letra").textContent = "";
+        }
+    </script>
+</body>
+</html>
