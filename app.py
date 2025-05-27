@@ -1,30 +1,28 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request
 from flask_sqlalchemy import SQLAlchemy
 import numpy as np
 import pickle
 from tensorflow.keras.models import load_model
 from tensorflow.keras.preprocessing.sequence import pad_sequences
 from datetime import datetime
+import os
 
 app = Flask(__name__)
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///historial.db"
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:////tmp/historial.db"  # ruta en /tmp para escritura
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 db = SQLAlchemy(app)
 
-# Modelo de base de datos
 class Historial(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     texto_inicial = db.Column(db.Text, nullable=False)
     letra_generada = db.Column(db.Text, nullable=False)
     fecha = db.Column(db.DateTime, default=datetime.utcnow)
 
-# Cargar modelo y tokenizer
 model = load_model("modelo_lstm.h5")
 with open("tokenizer.pkl", "rb") as f:
     tokenizer = pickle.load(f)
 
 max_sequence_len = model.input_shape[1]
-total_words = model.output_shape[1]
 
 def sample_with_temperature(preds, temperature=1.0):
     preds = np.asarray(preds).astype("float64")
@@ -59,7 +57,6 @@ def index():
         texto_inicial = request.form.get("texto_inicial", "")
         if texto_inicial:
             letra_generada = generar_letra(texto_inicial, next_words=50, temperature=0.8)
-            # Guardar en la base de datos
             nueva_entrada = Historial(texto_inicial=texto_inicial, letra_generada=letra_generada)
             db.session.add(nueva_entrada)
             db.session.commit()
@@ -73,4 +70,5 @@ def historial():
 if __name__ == "__main__":
     with app.app_context():
         db.create_all()
-    app.run(port=3000, debug=True)
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port)
