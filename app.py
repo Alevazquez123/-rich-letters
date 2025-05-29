@@ -8,7 +8,7 @@ from datetime import datetime
 import os
 
 app = Flask(__name__)
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:////tmp/historial.db"  # ruta en /tmp para escritura
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:////tmp/historial.db"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 db = SQLAlchemy(app)
 
@@ -67,8 +67,6 @@ def historial():
     entradas = Historial.query.order_by(Historial.fecha.desc()).all()
     return render_template("historial.html", entradas=entradas)
 
-if __name__ == "__main__":
-    with app.app_context():
-        db.create_all()
-    port = int(os.environ.get("PORT", 5000))
-    app.run(host="0.0.0.0", port=port)
+# Crear la base de datos si no existe (cuando Gunicorn inicie)
+with app.app_context():
+    db.create_all()
